@@ -6,27 +6,45 @@ jQuery -> # on Document ready
   $('.validate').on "blur", ->
     input = $(this)
     validate(input)
-###
+  
   validate = (input) ->
-    value = input.val()
-    if data-isBlank exists
-      if input is blank
-        throwError "This field is required"
-  
-    if data-minChars exists
-      minChars = input.data-minChars.value
-      charCount = input.value
-      if minChars is less than charCount
-        throw error "You need at least #{minChars} characters"
-      else
-        removeError()
-  
-    if data-isInteger exists
+    inputVal = input.val()
+    inputLen = inputVal.length
+    validations = input.data()            #cache data-xxx tags
+    
+    if validations.isinteger is on
+      console.log "I'm checking for integers"
+      ###    
       if data-isInteger is not integer
         throwError "You must use an whole number"
       else
         removeError()
-###
+      ###
+
+    if validations.notblank is on
+      if inputLen <= 0
+        console.log "Error, not blank"
+        throwError("This field can't be blank", input)
+      else
+        removeError(input)
+
+    if validations.minchars > 0
+      if inputLen < validations.minchars
+        console.log "Error, chars not > 5"
+        throwError("You need at least 5 chars", input)
+      else
+        removeError(input)
+
+  throwError = (message, input) ->
+    input.addClass "has-error"
+    input.nextAll('.errorContainer').empty().append(message)
+
+  removeError = (input) ->
+    console.log "removing error class"
+    input.removeClass("has-error")
+    input.nextAll('.errorContainer').empty()
+
+    #errors = true
 
   
 
@@ -35,21 +53,13 @@ jQuery -> # on Document ready
 
 ### Pseudo Code
 
-query .validate inputs 
-  attach on blur listener
-    input = $(this)
-    validate(input)
-
 query .validate-lastInpt
   attach keyup listener       # uses keyup for last input when user doesn't blur
     input = $(this)
     pause 1000 ms             # mitigates early errors ?
     validate(input)
 
-throwError(message)
-  errors = true
-  append message to .errorContainer
-  add class .valError
+
 
 removeError
   empty $this .errorContainer
