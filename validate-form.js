@@ -14,6 +14,7 @@ query .validate-lastInpt
     validate(input)
 
 throwError(message)
+  errors = true
   append message to .errorContainer
   add class .valError
 
@@ -39,6 +40,12 @@ validate(input)
       throwError "You must use an whole number"
     else
       removeError()
+
+errors = false   # Keep track of current error status for submit
+
+submitForm
+  if errors = false
+    this.parent.submit
 */
 
 
