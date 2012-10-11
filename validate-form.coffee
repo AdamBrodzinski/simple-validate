@@ -11,14 +11,6 @@ jQuery -> # on Document ready
     inputVal = input.val()
     inputLen = inputVal.length
     validations = input.data()         #cache data-xxx tags
-    
-    if validations.isinteger is on
-      isInteger = /^\d+$/
-      if isInteger.test(inputVal) isnt true
-        console.log "Not an int!!"
-        throwError("Must be a whole number", input)
-      else
-        removeError(input)
 
     if validations.notblank is on
       if inputLen <= 0
@@ -34,15 +26,25 @@ jQuery -> # on Document ready
       else
         removeError(input)
 
+    if validations.isinteger is on
+      isInteger = /^\d+$/
+      if isInteger.test(inputVal) isnt true  #refactor to is false?
+        console.log "Not an int!!"
+        throwError("Must be a whole number", input)
+      else
+        removeError(input)
+    
+
   throwError = (message, input) ->
-    input.addClass "has-error"
-    input.nextAll('.errorContainer').empty().append(message)
+    if !input.hasClass('has-error')
+      input.addClass "has-error"
+      input.nextAll('.errorContainer').empty().append(message)
 
   removeError = (input) ->
-    console.log "removing error class"
-    input.removeClass("has-error")
-    input.nextAll('.errorContainer').empty()
-
+    if input.hasClass('has-error')
+      console.log "removing error class"
+      input.removeClass("has-error")
+      input.nextAll('.errorContainer').empty()
 
 # Match multiple conditions
 #if validations.minchars > 0 and !input.hasClass('has-error')
