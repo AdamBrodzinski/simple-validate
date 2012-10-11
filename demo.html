@@ -1,7 +1,8 @@
 <html>
 <head>
 	<title>Simple Validation</title>
-	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="jq.js"></script>
+	<!--<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>-->
 	<script src="validate-form.js"></script>
 
 	<style type="text/css">
@@ -24,6 +25,7 @@
 <body data-foo="qux">
 	<h3>A simple validation script</h3>
 	<p>This is a very opinionated and somewhat non flexible validator. Pretty much made to be just enough for me :)</p>
+	<p>Validator will validate on input blur. It uses HTML5 data tags to configure what needs validated</p>
 
 	<form action="#" method="POST">
 		<fieldset>
@@ -46,7 +48,7 @@
 
 		<fieldset>
 			<label>I have to be an integer to pass</label>
-			<input type="" class="validate" data-isinteger="true" data-nodtblank="true"><br>
+			<input type="" class="validate" data-isinteger="true" data-notblank="true"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
