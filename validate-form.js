@@ -10,19 +10,18 @@
       return validate(input);
     });
     validate = function(input) {
-      var inputLen, inputVal, validations;
+      var inputLen, inputVal, isInteger, validations;
       inputVal = input.val();
       inputLen = inputVal.length;
       validations = input.data();
       if (validations.isinteger === true) {
-        console.log("I'm checking for integers");
-        /*    
-        if data-isInteger is not integer
-          throwError "You must use an whole number"
-        else
-          removeError()
-        */
-
+        isInteger = /^\d+$/;
+        if (isInteger.test(inputVal) !== true) {
+          console.log("Not an int!!");
+          throwError("Must be a whole number", input);
+        } else {
+          removeError(input);
+        }
       }
       if (validations.notblank === true) {
         if (inputLen <= 0) {

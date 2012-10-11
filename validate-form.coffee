@@ -13,13 +13,12 @@ jQuery -> # on Document ready
     validations = input.data()            #cache data-xxx tags
     
     if validations.isinteger is on
-      console.log "I'm checking for integers"
-      ###    
-      if data-isInteger is not integer
-        throwError "You must use an whole number"
+      isInteger = /^\d+$/
+      if isInteger.test(inputVal) isnt true
+        console.log "Not an int!!"
+        throwError("Must be a whole number", input)
       else
-        removeError()
-      ###
+        removeError(input)
 
     if validations.notblank is on
       if inputLen <= 0
