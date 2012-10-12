@@ -1,7 +1,8 @@
 <html>
 <head>
 	<title>Simple Validation</title>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="jq.js"></script>
+	<!--<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>-->
 	<script src="validate-form.js"></script>
 
 	<style type="text/css">
@@ -9,29 +10,45 @@
 		fieldset { border: none; margin:0; }
 		label	   {display: block; font-size: 13px; font-weight: bold; color: #555;}
 
-		.errorContainer { color: red; display: inline-block; margin-top: 6px; font-size: 13px;}
+		/* Styles for Validator */
+		.errorContainer { 
+			color: red;
+			display: inline-block;
+			margin-top: 6px;
+			font-size: 13px;
+		}
+		.has-error {
+			border: 1px solid red;
+		}
 	</style>
 </head>
-<body>
+<body data-foo="qux">
 	<h3>A simple validation script</h3>
 	<p>This is a very opinionated and somewhat non flexible validator. Pretty much made to be just enough for me :)</p>
+	<p>Validator will validate on input blur. It uses HTML5 data tags to configure what needs validated</p>
 
 	<form action="#" method="POST">
 		<fieldset>
 			<label>Needs to not be blank</label>
-			<input type="" class="validate" data-notBlank="true"><br>
+			<input type="" class="validate" data-notblank="true"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
 		<fieldset>
 			<label>Min Characters need to be 5</label>
-			<input type="" class="validate" data-minChars="5"><br>
+			<input type="" class="validate" data-minchars="5"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
 		<fieldset>
-			<label>Needs to not be blank</label>
-			<input type="" class="validate" data-foo="true"><br>
+			<label>Needs to not be blank and over 5 chars</label>
+			<input type="" class="validate" data-minchars="5" data-notblank="true"><br>
+			<div class="errorContainer"></div>
+		</fieldset>
+
+		<fieldset>
+			<label>I have to be an integer to pass</label>
+			<input type="" class="validate" data-isinteger="true" data-minchars="4"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
