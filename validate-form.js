@@ -2,9 +2,11 @@
 (function() {
 
   jQuery(function() {
-    var errors, removeError, throwError, validate;
-    errors = 0;
-    $('.validate').on("blur", function() {
+    var errorCount, removeError, submitBtn, throwError, valEl, validate;
+    errorCount = null;
+    valEl = $('.validate');
+    submitBtn = valEl.parent().parent().find('input[type=submit]');
+    valEl.on("blur", function() {
       var input;
       input = $(this);
       return validate(input);
@@ -16,7 +18,6 @@
       validations = input.data();
       if (validations.notblank === true) {
         if (inputLen <= 0) {
-          console.log("Error, not blank");
           throwError("This field can't be blank", input);
         } else {
           removeError(input);
@@ -24,7 +25,6 @@
       }
       if (validations.minchars > 0) {
         if (inputLen < validations.minchars) {
-          console.log("Error, chars not > 5");
           throwError("You need at least 5 chars", input);
         } else {
           removeError(input);
@@ -32,8 +32,7 @@
       }
       if (validations.isinteger === true) {
         isInteger = /^\d+$/;
-        if (isInteger.test(inputVal) !== true) {
-          console.log("Not an int!!");
+        if (isInteger.test(inputVal) === false) {
           return throwError("Must be a whole number", input);
         } else {
           return removeError(input);
@@ -42,17 +41,24 @@
     };
     throwError = function(message, input) {
       if (!input.hasClass('has-error')) {
+        errorCount += 1;
         input.addClass("has-error");
-        return input.nextAll('.errorContainer').empty().append(message);
+        return input.nextAll('.errorContainer').append(message);
       }
     };
-    return removeError = function(input) {
+    removeError = function(input) {
       if (input.hasClass('has-error')) {
-        console.log("removing error class");
+        errorCount -= 1;
         input.removeClass("has-error");
         return input.nextAll('.errorContainer').empty();
       }
     };
+    return submitBtn.on("click", function(e) {
+      e.preventDefault();
+      if (errorCount === 0) {
+        return valEl.parent().parent().submit();
+      }
+    });
   });
 
 }).call(this);

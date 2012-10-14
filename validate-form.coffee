@@ -1,9 +1,12 @@
 
 jQuery -> # on Document ready
-  
-  errors = 0
 
-  $('.validate').on "blur", ->
+  errorCount = null
+  
+  valEl = $('.validate')  # cache .validate elements
+  submitBtn = valEl.parent().parent().find('input[type=submit]')
+
+  valEl.on "blur", ->
     input = $(this)
     validate(input)
   
@@ -14,37 +17,37 @@ jQuery -> # on Document ready
 
     if validations.notblank is on
       if inputLen <= 0
-        console.log "Error, not blank"
         throwError("This field can't be blank", input)
       else
         removeError(input)
 
     if validations.minchars > 0
       if inputLen < validations.minchars
-        console.log "Error, chars not > 5"
         throwError("You need at least 5 chars", input)
       else
         removeError(input)
 
     if validations.isinteger is on
       isInteger = /^\d+$/
-      if isInteger.test(inputVal) isnt true  #refactor to is false?
-        console.log "Not an int!!"
+      if isInteger.test(inputVal) is false
         throwError("Must be a whole number", input)
       else
         removeError(input)
-    
 
   throwError = (message, input) ->
     if !input.hasClass('has-error')
+      errorCount += 1
       input.addClass "has-error"
-      input.nextAll('.errorContainer').empty().append(message)
+      input.nextAll('.errorContainer').append(message)
 
   removeError = (input) ->
     if input.hasClass('has-error')
-      console.log "removing error class"
+      errorCount -= 1
       input.removeClass("has-error")
       input.nextAll('.errorContainer').empty()
 
-# Match multiple conditions
-#if validations.minchars > 0 and !input.hasClass('has-error')
+  submitBtn.on "click", (e) ->
+    e.preventDefault()
+    if errorCount is 0
+      valEl.parent().parent().submit()
+

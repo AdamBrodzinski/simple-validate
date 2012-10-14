@@ -6,9 +6,10 @@
 	<script src="validate-form.js"></script>
 
 	<style type="text/css">
-		body     { font-family: sans-serif;}
+		body     { font-family: sans-serif; color: #222;}
 		fieldset { border: none; margin:0; }
 		label	   {display: block; font-size: 13px; font-weight: bold; color: #555;}
+		h3,h4 { color: #777;}
 
 		/* Styles for Validator */
 		.errorContainer { 
@@ -22,33 +23,34 @@
 		}
 	</style>
 </head>
-<body data-foo="qux">
+<body>
 	<h3>A simple validation script</h3>
-	<p>This is a very opinionated and somewhat non flexible validator. Pretty much made to be just enough for me :)</p>
-	<p>Validator will validate on input blur. It uses HTML5 data tags to configure what needs validated</p>
+	<p>This is a very opinionated and a somewhat non flexible validator, just a go to for basic validation.<br>
+	Validator will validate on input blur, and on submit. It uses HTML5 data tags to configure what needs validated</p><br>
+
+	<h4>Requirements</h4>
+	<ul>
+		<li>Inputs to validate must have a class of validate</li>
+		<li>There must be a div with class of errorContainer after input</li>
+		<li>These two must be inside a fieldset</li>
+	</ul><br>
 
 	<form action="#" method="POST">
 		<fieldset>
 			<label>Needs to not be blank</label>
-			<input type="" class="validate" data-notblank="true"><br>
+			<input type="text" class="validate" data-notblank="true"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
 		<fieldset>
 			<label>Min Characters need to be 5</label>
-			<input type="" class="validate" data-minchars="5"><br>
-			<div class="errorContainer"></div>
-		</fieldset>
-
-		<fieldset>
-			<label>Needs to not be blank and over 5 chars</label>
-			<input type="" class="validate" data-minchars="5" data-notblank="true"><br>
+			<input type="text" class="validate" data-minchars="5"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
 		<fieldset>
 			<label>I have to be an integer to pass</label>
-			<input type="" class="validate" data-isinteger="true" data-minchars="4"><br>
+			<input type="text" class="validate" data-isinteger="true"><br>
 			<div class="errorContainer"></div>
 		</fieldset>
 
